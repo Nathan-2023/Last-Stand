@@ -1,3 +1,4 @@
+import pygame
 import pygame as pg
 import sys
 
@@ -8,26 +9,28 @@ from player import Player
 from player import EnemyGenerator
 import settings
 import ui
+
 # initialization --------------------------------------------------------------------
 pg.init()
 
 gdata = lambda: None
 gdata.fonts = dict()
-gdata.fonts["Large"] = pg.font.SysFont("georgia", 42)
-gdata.fonts["small"] = pg.font.SysFont("georgia", 32)
-gdata.fonts["tiny"] = pg.font.SysFont("georgia", 12)
+gdata.fonts["Large"] = pg.font.SysFont("copperplate", 40)
+gdata.fonts["small"] = pg.font.SysFont("copperplate", 30)
+gdata.fonts["tiny"] = pg.font.SysFont("copperplate", 10)
 gdata.mmanager = MouseManager()
-gdata.player = None #Player(gdata)
-gdata.bullets = None #[]
-gdata.enemies = None #[]
-gdata.enemygen = None #EnemyGenerator(gdata)
-gdata.shop = None #Shop(gdata)
+gdata.player = None  # Player(gdata)
+gdata.bullets = None  # []
+gdata.enemies = None  # []
+gdata.enemygen = None  # EnemyGenerator(gdata)
+gdata.shop = None  # Shop(gdata)
 gdata.time = 0
 gdata.quit = False
 gdata.score = ui.Score()
 gdata.smechine = StateMechine(MenuState(gdata))
 
 screen = pg.display.set_mode(settings.WIN_SIZE)
+background = pygame.image.load(r"/Users/aaltol/Desktop/CP-AA-Folder/CPUnknown.bmp")
 pg.display.set_caption(settings.WIN_TITLE)
 
 clock = pg.time.Clock()
@@ -43,5 +46,5 @@ while True:
         else:
             gdata.smechine.handle_event(event)
     pg.display.update()
-    
+
 

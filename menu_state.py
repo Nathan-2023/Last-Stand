@@ -5,21 +5,22 @@ import ui
 from game_state import GameState
 from score_state import ScoreState
 
+
 class MenuState:
-    
+
     def __init__(self, gdata):
         self.gdata = gdata
         self.btn_size = 200, 75
         self.vgap = 20
         self.nbtn_top = settings.WIN_SIZE[1] // 2
-        self.start_btn = self.btn("Start", self.on_start)
-        self.score_btn = self.btn("Scores", self.on_score)
+        self.start_btn = self.btn("Initiate", self.on_start)
+        self.score_btn = self.btn("Credit", self.on_score)
 
     def btn(self, text, on_click):
         topleft = (settings.WIN_SIZE[0] - self.btn_size[0]) // 2, self.nbtn_top
         self.nbtn_top += self.btn_size[1] + self.vgap
         return ui.Button(topleft, self.btn_size, on_click, text, \
-            self.gdata.fonts["Large"])
+                         self.gdata.fonts["Large"])
 
     def on_start(self, mpos):
         self.gdata.smechine.add(GameState(self.gdata), False)
