@@ -151,6 +151,8 @@ class ObjectManager:
             obj.draw(screen)
 
 
+
+
 class Bullet:
 
     def __init__(self, gdata, pos, ang, rad=10, dmg=50, vel=0.5):
@@ -237,6 +239,70 @@ class Enemy:
     def collide_player(self):
         self.gdata.player.take_damage(self.damage)
         self.gdata.enemies.remove(self)
+
+
+
+
+
+
+
+class ShieldBullet:
+
+    def __init__(self, gdata, center, vel=0.1) -> object:
+        self.gdata = gdata
+        self.x, self.y = center[0], center[1]
+        self.radius = 0
+        self.vel = vel
+        self.num = 0
+
+    def update(self, dt):
+        self.radius += self.vel * dt
+        if self.radius ** 2 > distsq((0, 0))/40:
+            self.radius -= self.vel * dt
+            self.num += 1
+            if self.num > 100:
+                self.remove()
+
+    def remove(self):
+        self.gdata.bullets.remove(self)
+
+    def draw(self, screen):
+        pg.draw.circle(screen, settings.DARK_ORANGE, (self.x, self.y), int(self.radius), 5000)
+
+    def collide(self, enemy):
+        enemy.take_damage(enemy.health)
+        if enemy.health >= 0:
+            self.gdata.player.money += enemy.worth
+
+
+class Enemy:
+
+    def __init__(self, gdata, pos, ang, rad=100, dmg=1000, vel=10):
+        self.gdata = gdata
+        self.x, self.y = pos[0], pos[1]
+        self.vx, self.vy = -m.cos(m.radians(ang)) * vel, -m.sin(m.radians(ang)) * vel
+        self.radius = rad
+        self.damage = dmg
+        self.health = 50
+        self.worth = 100000
+
+    def update(self, dt):
+        self.x += self.vx
+        self.y += self.vy
+
+    def draw(self, screen):
+        pg.draw.circle(screen, settings.BLUE2, (int(self.x), int(self.y)), \
+                       self.radius)
+
+    def take_damage(self, dmg):
+        self.health -= dmg
+        if self.health <= 0:
+            self.gdata.enemies.remove(self)
+
+    def collide_player(self):
+        self.gdata.player.take_damage(self.damage)
+        self.gdata.enemies.remove(self)
+
 
 
 class EnemyGenerator:

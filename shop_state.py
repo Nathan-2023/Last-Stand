@@ -16,6 +16,7 @@ class ShopState:
             self.gdata.shop.add_item(ui.SpreadShot(self.gdata))
             self.gdata.shop.add_item(ui.Shockwave(self.gdata))
             self.gdata.shop.add_item(ui.Piercing(self.gdata))
+            self.gdata.shop.add_item(ui.Shield(self.gdata))
 
         btn_size = 200, 75
         quit_tl = settings.WIN_SIZE[0] - btn_size[0] - 20, \

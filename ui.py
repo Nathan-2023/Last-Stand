@@ -1,5 +1,6 @@
 import pygame as pg
 from player import ShockwaveBullet
+from player import ShieldBullet
 from player import Bullet
 from collections import deque
 import settings
@@ -116,18 +117,7 @@ ShopItem.btn_tl = (ShopItem.size[0] - ShopItem.btn_size[0] - 20, \
                    (ShopItem.size[1] - ShopItem.btn_size[1]) // 2)
 
 
-class Shield(ShopItem):
 
-    def __init__(self, gdata):
-        super().__init__(gdata, "Shield", 1000)
-
-    def on_buy(self, mpos):
-        if self.gdata.player.money >= self.cost:
-            self.gdata.player.money -= self.cost
-            self.gdata.bullets.add(ShockwaveBullet(self.gdata, settings.WIN_CENTER))
-            self.cost *= 0
-            self.btn.text = "¥" + str(self.cost)
-            self.btn.redraw()
 
 
 class ReloadBoost(ShopItem):
@@ -183,7 +173,7 @@ class Shockwave(ShopItem):
         if self.gdata.player.money >= self.cost:
             self.gdata.player.money -= self.cost
             self.gdata.bullets.add(ShockwaveBullet(self.gdata, settings.WIN_CENTER))
-            self.cost *= 1.5
+            self.cost *= 160
             self.btn.text = "¥" + str(self.cost)
             self.btn.redraw()
 
@@ -200,6 +190,20 @@ class Piercing(ShopItem):
             self.btn.text = "----"
             self.bought = True
             self.btn.redraw()
+
+class Shield(ShopItem):
+
+    def __init__(self, gdata):
+        super().__init__(gdata, "Shield", 1000)
+
+    def on_buy(self, mpos):
+        if self.gdata.player.money >= self.cost:
+            self.gdata.player.money -= self.cost
+            self.gdata.bullets.add(ShieldBullet(self.gdata, settings.WIN_CENTER))
+            self.cost *= 1
+            self.btn.text = "¥" + str(self.cost)
+            self.btn.redraw()
+
 
 
 class Shop:
